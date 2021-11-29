@@ -1,0 +1,33 @@
+For the result:
+    void    NIL
+    char    'C
+    short   'W
+    int     'I
+    long    'N
+    pointer 'P
+    string  'S
+    float   -1.0
+    double  1.0
+    lispValue   T
+    
+    if you want to do something to the result, pass a list
+    '('I '(() ) ) where second argument is a function that
+    takes the result
+    
+For arguments:
+    pass directly if:
+        int long short string(i.e char*)
+    for reals:
+        float   (N . -1.0)
+        double  (N . 1.0)
+    for pointers:
+        pass a list
+        (Var (4 . I)) four ints
+    general pointers i dont know
+        
+for structures if it takes it by pointer then pass directly
+otherwise you need a C glue code
+    
+    
+    
+    
