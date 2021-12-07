@@ -28,6 +28,6 @@ For arguments:
 for structures if it takes it by pointer then pass directly
 otherwise you need a C glue code
     
-    
-    
-    
+NOTES:
+some functions reuturn char* and say it has to be freed, should I worry about it or native takes care of it?
+all the floats are wrong, i write (-1.0 . N) instead it should be (cons N -1.0)
