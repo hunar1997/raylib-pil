@@ -2,6 +2,8 @@
 
 (symbols 'ray 'pico)
 
+(de flt N (list 'cons (car N) -1.0)) # turns  `(flt N) into (cons N -1.0)
+
 #(local clang)
 (de clang (Nm L . Lst)
    (out (tmp Nm ".c") (here "/**/"))
@@ -197,7 +199,7 @@
 #   (Vector2 GetMouseDelta(void)
    (setMousePosition (X Y) SetMousePosition NIL X Y)
    (setMouseOffset (OffsetX OffsetY) SetMouseOffset NIL OffsetX OffsetY)
-   (setMouseScale (ScaleX ScaleY) SetMouseScale NIL (ScaleX . -1.0) (ScaleY . -1.0))
+   (setMouseScale (ScaleX ScaleY) SetMouseScale NIL `(flt ScaleX) `(flt ScaleY))
    (getMouseWheelMove NIL GetMouseWheelMove -1.0 )
    (setMouseCursor (Cursor) SetMouseCursor NIL Cursor)
 
@@ -235,18 +237,18 @@
 #   (void DrawLineBezierQuad(Vector2 startPos, Vector2 endPos, Vector2 controlPos, float thick, Color color)
 #   (void DrawLineBezierCubic(Vector2 startPos, Vector2 endPos, Vector2 startControlPos, Vector2 endControlPos, float thick, Color color)
 #   (void DrawLineStrip(Vector2 *points, int pointCount, Color color)
-#{☑}#   (drawCircle (CenterX CenterY Radius Color) DrawCircle NIL CenterX CenterY (cons Radius -1.0) Color)
+#{☑}#   (drawCircle (CenterX CenterY Radius Color) DrawCircle NIL CenterX CenterY `(flt Radius) Color)
 #   (void DrawCircleSector(Vector2 center, float radius, float startAngle, float endAngle, int segments, Color color)
 #   (void DrawCircleSectorLines(Vector2 center, float radius, float startAngle, float endAngle, int segments, Color color)
-#{☑}#   (drawCircleGradient (CenterX CenterY Radius Color1 Color2) DrawCircleGradient NIL CenterX CenterY (cons Radius -1.0) Color1 Color2)
-#{☑}#   (drawCircleV (Center Radius Color) PilDrawCircleV NIL (cons (car Center) -1.0) (cons (cadr Center) -1.0) (cons Radius -1.0) Color)
-   (drawCircleLines (CenterX CenterY Radius Color) DrawCircleLines NIL CenterX CenterY (-1.0 . Radius) Color)
-   (drawEllipse (CenterX CenterY RadiusH RadiusV Color) DrawEllipse NIL CenterX CenterY (-1.0 . RadiusH) (-1.0 . RadiusV) Color)
-   (drawEllipseLines (CenterX CenterY RadiusH RadiusV Color) DrawEllipseLines NIL CenterX CenterY (-1.0 . RadiusH) (-1.0 . RadiusV) Color)
+#{☑}#   (drawCircleGradient (CenterX CenterY Radius Color1 Color2) DrawCircleGradient NIL CenterX CenterY `(flt Radius) Color1 Color2)
+#{☑}#   (drawCircleV (Center Radius Color) PilDrawCircleV NIL `(flt (car Center)) `(flt (cadr Center)) `(flt Radius) Color)
+   (drawCircleLines (CenterX CenterY Radius Color) DrawCircleLines NIL CenterX CenterY `(flt Radius) Color)
+   (drawEllipse (CenterX CenterY RadiusH RadiusV Color) DrawEllipse NIL CenterX CenterY `(flt RadiusH) `(flt RadiusV) Color)
+   (drawEllipseLines (CenterX CenterY RadiusH RadiusV Color) DrawEllipseLines NIL CenterX CenterY `(flt RadiusH) `(flt RadiusV) Color)
 #   (void DrawRing(Vector2 center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color color)
 #   (void DrawRingLines(Vector2 center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color color)
 #{☑}#   (drawRectangle (PosX PosY Width Height Color) DrawRectangle NIL PosX PosY Width Height Color)
-#{☑}#   (drawRectangleV (Position Size Color) PilDrawRectangleV NIL (cons (car Position) -1.0) (cons (cadr Position) -1.0) (cons (car Size) -1.0) (cons (cadr Size) -1.0) Color)
+#{☑}#   (drawRectangleV (Position Size Color) PilDrawRectangleV NIL `(flt (car Position)) `(flt (cadr Position)) `(flt (car Size)) `(flt (cadr Size)) Color)
 #   (void DrawRectangleRec(Rectangle rec, Color color)
 #   (void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color)
 #{☑}#   (drawRectangleGradientV (PosX PosY Width Height Color1 Color2) DrawRectangleGradientV NIL PosX PosY Width Height Color1 Color2)
@@ -363,13 +365,13 @@
 #   (void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint)
 #   (void DrawTexturePoly(Texture2D texture, Vector2 center, Vector2 *points, Vector2 *texcoords, int pointCount, Color tint)
    
-   (fade (Color Alpha) Fade 'I Color (-1.0 . Alpha))
+   (fade (Color Alpha) Fade 'I Color `(flt Alpha))
    (colorToInt (Color) ColorToInt 'I Color)
 #   (Vector4 ColorNormalize(Color color)
 #   (Color ColorFromNormalized(Vector4 normalized)
 #   (Vector3 ColorToHSV(Color color)
-   (colorFromHSV (Hue Saturation Value) ColorFromHSV 'I (-1.0 .  Hue) (-1.0 . Saturation) (-1.0 . Value))
-   (colorAlpha (Color Alpha) ColorAlpha 'I Color (-1.0 . Alpha))
+   (colorFromHSV (Hue Saturation Value) ColorFromHSV 'I `(flt Hue) `(flt Saturation) `(flt Value))
+   (colorAlpha (Color Alpha) ColorAlpha 'I Color `(flt Alpha))
    (colorAlphaBlend (Dst Src Tint) ColorAlphaBlend 'I Dstr Src Tint)
    (getColor (HexValue) GetColor 'I HexValue)
 #   (Color GetPixelColor(void *srcPtr, int format)
@@ -441,7 +443,7 @@
 #   (void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color)
 #   (void DrawPlane(Vector3 centerPos, Vector2 size, Color color)
 #   (void DrawRay(Ray ray, Color color)
-   (drawGrid (Slices Spacing) DrawGrid NIL Slices (-1.0 . Spacing))
+   (drawGrid (Slices Spacing) DrawGrid NIL Slices `(flt Spacing))
 
 #   (Model LoadModel(const char *fileName)
 #   (Model LoadModelFromMesh(Mesh mesh)
@@ -506,7 +508,7 @@
    (initAudioDevice NIL InitAudioDevice)
    (closeAudioDevice NIL CloseAudioDevice)
    (isAudioDeviceReady NIL IsAudioDeviceReady '('B 'n0))
-   (setMasterVolume (Volume) SetMasterVolume NIL (-1.0 .  Volume))
+   (setMasterVolume (Volume) SetMasterVolume NIL `(flt Volume))
 
 #   (Wave LoadWave(const char *fileName)
 #   (Wave LoadWaveFromMemory(const char *fileType, const unsigned char *fileData, int dataSize)
@@ -872,7 +874,6 @@ void PilDrawRectangleV (float x1, float y1, float x2, float y2, Color col){
     Vector2 v1 = {x1,y1};
     Vector2 v2 = {x2,y2};
     DrawRectangleV(v1,v2,col);
-printf("%f %f %f %f done\n", x1, y1, x2, y2);
 }
 
 /**/

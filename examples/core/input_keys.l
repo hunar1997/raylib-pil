@@ -29,7 +29,6 @@
       (clearBackground RAYWHITE )
       (drawText "move the ball with arrow keys" 10 10 20 DARKGRAY)
       (drawCircleV ballPosition 50.0 MAROON)
-      (drawRectangleV (100.0 100.0) (30.0 50.0) RED)
    (endDrawing)
 )
 
