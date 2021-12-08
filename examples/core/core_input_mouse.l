@@ -12,8 +12,9 @@
 (setTargetFPS 60)
 
 (until (windowShouldClose)
-   (setq ballPosition (getMousePosition))
-   #(setq ballPosition (list (* 1.0 (getMouseX)) (* 1.0 (getMouseY))))
+   # It should use this function, but needs glue which isn't done yet
+   # (setq ballPosition (getMousePosition))
+   (setq ballPosition (list (* 1.0 (getMouseX)) (* 1.0 (getMouseY))))
 
    (cond 
       ((isMouseButtonPressed MOUSE_BUTTON_LEFT)    (setq ballColor MAROON))
