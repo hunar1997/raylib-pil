@@ -881,8 +881,7 @@ void PilDrawRectangleV (float x1, float y1, float x2, float y2, Color col){
 Vector2 *PilGetMousePosition(void){
    Vector2 v1 = GetMousePosition();
    Vector2 *v2 = malloc(sizeof(Vector2));
-   v2->x = v1.x;
-   v2->y = v1.y;
+   *v2 = v1;
    return v2;
 }
 
