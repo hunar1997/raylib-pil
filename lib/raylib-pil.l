@@ -23,7 +23,7 @@
          (when (== '@ (fin (cadr L)))
             (push (cdaar L) 'pass)) ) ))
 
-(clang "ralib-pil" '("-lraylib")
+(clang "raylib-pil" '("-lraylib")
 
 # All the functions that have the symbol below are verified to be working
 #{☑}# 
@@ -199,7 +199,6 @@
    (isMouseButtonUp (Button) IsMouseButtonUp `(bln) Button)
 #{☑}#   (getMouseX NIL GetMouseX 'I)
 #{☑}#   (getMouseY NIL GetMouseY 'I)
-   (getMousePosition NIL GetMousePosition '(-1.0 -1.0))
 #   (Vector2 GetMouseDelta(void)
    (setMousePosition (X Y) SetMousePosition NIL X Y)
    (setMouseOffset (OffsetX OffsetY) SetMouseOffset NIL OffsetX OffsetY)
@@ -879,18 +878,33 @@ void PilDrawRectangleV (float x1, float y1, float x2, float y2, Color col){
     Vector2 v2 = {x2,y2};
     DrawRectangleV(v1,v2,col);
 }
+Vector2 *PilGetMousePosition(void){
+   Vector2 v1 = GetMousePosition();
+   Vector2 *v2 = malloc(sizeof(Vector2));
+   v2->x = v1.x;
+   v2->y = v1.y;
+   return v2;
+}
+
 
 /**/
+
+(setq Lib (tmp "raylib-pil"))
+
+(de getMousePosition NIL 
+   (prog1
+      (struct (native Lib '"PilGetMousePosition" 'P) (vec2))
+      (%@ "free" NIL "PilGetMousePosition") ))
 
 # There were only two functions using ... thus I didn't bother to modify clang.l
 (de traceLog (LogLevel Text . @)
    (prog1
-      (pass native "libraylib.so" "TraceLog" NIL)
+      (pass native "libraylib.so" '"TraceLog" NIL)
       (%@ "free" NIL "TraceLog")))
 
 (de textFormat (Text . @)
    (prog1
-      (pass native "libraylib.so" "TextFormat" 'S)
+      (pass native "libraylib.so" '"TextFormat" 'S)
       (%@ "free" NIL "TextFormat")))
 
 (setq
